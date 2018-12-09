@@ -1,11 +1,10 @@
 package person;
 
 import address.ValidAddressRequest;
-import io.vavr.collection.List;
 import lombok.Builder;
 import lombok.Value;
 import patterns.Age;
-import patterns.Email;
+import patterns.Emails;
 import patterns.Word;
 
 /**
@@ -16,6 +15,6 @@ import patterns.Word;
 public class ValidPersonRequest {
     Word name;
     ValidAddressRequest address;
-    List<Email> emails;
+    Emails emails;
     Age age;
 }

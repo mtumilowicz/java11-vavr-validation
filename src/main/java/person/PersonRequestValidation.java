@@ -5,6 +5,7 @@ import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
 import patterns.Age;
 import patterns.Email;
+import patterns.Emails;
 import patterns.Word;
 import validation.NumberValidation;
 import validation.RegexPatternValidation;
@@ -23,7 +24,7 @@ public class PersonRequestValidation {
                         NumberValidation.validate(request.getAge()))
                 .ap((name, emails, address, age) -> ValidPersonRequest.builder()
                         .name(Word.of(name))
-                        .emails(emails.map(Email::of))
+                        .emails(emails.map(Email::of).transform(Emails::new))
                         .address(address)
                         .age(Age.of(age))
                         .build());
