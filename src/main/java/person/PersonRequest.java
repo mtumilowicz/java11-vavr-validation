@@ -1,6 +1,7 @@
 package person;
 
 import address.AddressRequest;
+import io.vavr.collection.List;
 
 /**
  * Created by mtumilowicz on 2018-12-09.
@@ -8,6 +9,6 @@ import address.AddressRequest;
 class PersonRequest {
     String name;
     AddressRequest address;
-    String email;
+    List<String> emails;
     int age;
 }

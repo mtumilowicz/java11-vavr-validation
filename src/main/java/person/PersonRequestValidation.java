@@ -15,12 +15,12 @@ public class PersonRequestValidation {
         return Validation
                 .combine(
                         RegexPatternValidation.validate(request.name, RegexPatternValidation.WORD_PATTERN, "NAME!"),
-                        RegexPatternValidation.validate(request.email, RegexPatternValidation.EMAIL_PATTERN, "EMAIL!"),
+                        RegexPatternValidation.validate(request.emails, RegexPatternValidation.EMAIL_PATTERN, "EMAIL!").mapError(x -> x.mkString(", ")),
                         AddressRequestValidation.validate(request.address).mapError(x -> x.mkString(", ")),
                         NumberValidation.validate(request.age))
-                .ap((name, email, address, age) -> ValidPersonRequest.builder()
+                .ap((name, emails, address, age) -> ValidPersonRequest.builder()
                         .name(name)
-                        .email(email)
+                        .emails(emails)
                         .address(address)
                         .age(age)
                         .build());

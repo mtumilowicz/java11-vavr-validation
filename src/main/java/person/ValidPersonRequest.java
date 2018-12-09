@@ -1,6 +1,7 @@
 package person;
 
 import address.ValidAddressRequest;
+import io.vavr.collection.List;
 import lombok.Builder;
 
 /**
@@ -10,6 +11,6 @@ import lombok.Builder;
 public class ValidPersonRequest {
     String name;
     ValidAddressRequest address;
-    String email;
+    List<String> emails;
     int age;
 }
