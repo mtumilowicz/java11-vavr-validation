@@ -1,4 +1,4 @@
-package person;
+package patterns;
 
 
 import com.google.common.base.Preconditions;

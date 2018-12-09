@@ -1,4 +1,4 @@
-package address;
+package patterns;
 
 import com.google.common.base.Preconditions;
 import lombok.NonNull;

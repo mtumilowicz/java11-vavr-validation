@@ -2,7 +2,8 @@ package address;
 
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
-import person.Word;
+import patterns.PostalCode;
+import patterns.Word;
 import validation.RegexPatternValidation;
 
 /**

@@ -3,6 +3,9 @@ package person;
 import address.AddressRequestValidation;
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
+import patterns.Age;
+import patterns.Email;
+import patterns.Word;
 import validation.NumberValidation;
 import validation.RegexPatternValidation;
 
