@@ -14,10 +14,10 @@ public class PersonRequestValidation {
 
         return Validation
                 .combine(
-                        RegexPatternValidation.validate(request.name, RegexPatternValidation.WORD_PATTERN, "NAME!"),
-                        RegexPatternValidation.validate(request.emails, RegexPatternValidation.EMAIL_PATTERN, "EMAIL!").mapError(x -> x.mkString(", ")),
-                        AddressRequestValidation.validate(request.address).mapError(x -> x.mkString(", ")),
-                        NumberValidation.validate(request.age))
+                        RegexPatternValidation.validate(request.getName(), RegexPatternValidation.WORD_PATTERN, "NAME!"),
+                        RegexPatternValidation.validate(request.getEmails(), RegexPatternValidation.EMAIL_PATTERN, "EMAIL!").mapError(x -> x.mkString(", ")),
+                        AddressRequestValidation.validate(request.getAddress()).mapError(x -> x.mkString(", ")),
+                        NumberValidation.validate(request.getAge()))
                 .ap((name, emails, address, age) -> ValidPersonRequest.builder()
                         .name(name)
                         .emails(emails)

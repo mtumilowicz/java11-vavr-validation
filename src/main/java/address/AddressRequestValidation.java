@@ -12,8 +12,8 @@ public class AddressRequestValidation {
 
         return Validation
                 .combine(
-                        RegexPatternValidation.validate(request.city, RegexPatternValidation.WORD_PATTERN, "NAME!"),
-                        RegexPatternValidation.validate(request.postalCode, RegexPatternValidation.POSTAL_CODE_PATTERN, "POSTAL CODE!"))
+                        RegexPatternValidation.validate(request.getCity(), RegexPatternValidation.WORD_PATTERN, "NAME!"),
+                        RegexPatternValidation.validate(request.getPostalCode(), RegexPatternValidation.POSTAL_CODE_PATTERN, "POSTAL CODE!"))
                 .ap((city, postalCode) -> ValidAddressRequest.builder()
                         .city(city)
                         .postalCode(postalCode)
