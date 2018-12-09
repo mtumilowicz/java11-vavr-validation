@@ -9,6 +9,6 @@ public class NumberValidation {
     public static Validation<String, Integer> positive(int number) {
         return number > 0
                 ? Validation.valid(number)
-                : Validation.invalid("has to be > 0");
+                : Validation.invalid(number + " is not > 0");
     }
 }
