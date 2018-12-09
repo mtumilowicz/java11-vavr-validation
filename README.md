@@ -143,7 +143,8 @@ you want to know all errors encountered, instead of one at a time.
             }
         }
         ```
-1. we provide validators:
+1. we provide validators (some mentioned above, but here 
+we get all validators together):
     * `AddressRequest`
         ```
         public class AddressRequestValidation {
