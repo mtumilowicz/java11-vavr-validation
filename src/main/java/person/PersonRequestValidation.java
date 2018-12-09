@@ -13,7 +13,7 @@ import validation.NumberValidation;
  * Created by mtumilowicz on 2018-12-09.
  */
 public class PersonRequestValidation {
-    public Validation<Seq<String>, ValidPersonRequest> validate(PersonRequest request) {
+    public static Validation<Seq<String>, ValidPersonRequest> validate(PersonRequest request) {
 
         return Validation
                 .combine(
