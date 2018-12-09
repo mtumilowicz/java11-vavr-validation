@@ -28,7 +28,7 @@ class AddressRequestValidationTest extends Specification {
                 .build()
     }
 
-    def "not valid AddressRequest"() {
+    def "full not valid AddressRequest"() {
         given:
         def request = AddressRequest.builder()
                 .city("wrong!")
@@ -41,5 +41,20 @@ class AddressRequestValidationTest extends Specification {
         then:
         report.isInvalid()
         report.getError() == ["wrong! is not a proper word!", "wrong! is not a proper postal code!"] as List
+    }
+
+    def "partially valid AddressRequest"() {
+        given:
+        def request = AddressRequest.builder()
+                .city("Warsaw")
+                .postalCode("wrong!")
+                .build()
+
+        when:
+        def report = AddressRequestValidation.validate(request)
+
+        then:
+        report.isInvalid()
+        report.getError() == ["wrong! is not a proper postal code!"] as List
     }
 }
