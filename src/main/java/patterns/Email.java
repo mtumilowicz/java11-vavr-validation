@@ -28,12 +28,6 @@ public class Email {
         return new Email(email);
     }
 
-    public static Validation<String, String> validate(@NonNull String email) {
-        return PATTERN.matcher(email).matches()
-                ? Validation.valid(email)
-                : Validation.invalid(email + " is not a valid email!");
-    }
-
     public static Validation<List<String>, List<String>> validate(List<String> emails) {
         return emails.partition(PATTERN.asMatchPredicate())
                 .apply((successes, failures) -> failures.isEmpty()
