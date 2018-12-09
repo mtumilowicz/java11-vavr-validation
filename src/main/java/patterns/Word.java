@@ -30,6 +30,6 @@ public class Word {
     public static Validation<String, String> validate(String word) {
         return PATTERN.matcher(word).matches()
                 ? Validation.valid(word)
-                : Validation.invalid(word + "is not a proper word!");
+                : Validation.invalid(word + " is not a proper word!");
     }
 }
