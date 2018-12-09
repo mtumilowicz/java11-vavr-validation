@@ -6,15 +6,27 @@ _Reference_: https://www.vavr.io/vavr-docs/#_validation
 _Reference_: https://www.baeldung.com/vavr-validation-api
 
 # preface
-The Validation control is an applicative functor (
+The `Validation` control is an applicative functor (
 https://softwaremill.com/applicative-functor/) 
 and facilitates 
-accumulating errors. When trying to compose Monads, the 
+accumulating errors. When trying to compose `Monads`, the 
 combination process will short circuit at the first encountered 
-error. But 'Validation' will continue processing the combining 
+error. But `Validation` will continue processing the combining 
 functions, accumulating all errors. This is especially useful 
 when doing validation of multiple fields, say a web form, and 
 you want to know all errors encountered, instead of one at a time.
+
+Preparing `Validator` is quite straight-forward:
+1. combine validations with `combine` method:
+    ```
+    static <E, T1, T2> Builder<E, T1, T2> combine(Validation<E, T1> validation1, Validation<E, T2> validation2)
+    ```
+    * up to 8 arguments
+1. then use `ap` function to get requested Validator:
+    ```
+    public <R> Validation<Seq<E>, R> ap(Function2<T1, T2, R> f)
+    ```
+    * **same number of arguments as combine**
 
 # project description
 1. suppose we want to validate `PersonRequest`:
