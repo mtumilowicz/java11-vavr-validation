@@ -32,7 +32,7 @@ you want to know all errors encountered, instead of one at a time.
         String city;
     }
     ```
-    patterns that we want to validate:
+    with patterns:
     * `name ~ [\w]`
     * `AddressRequest`:
         * `postalCode ~ [\d{2}-\d{3}]`
@@ -54,6 +54,15 @@ you want to know all errors encountered, instead of one at a time.
                                 .postalCode(PostalCode.of(postalCode))
                                 .build());
             }
+        }
+        ```
+        **note that in the end we construct** `ValidAddressRequest`:
+        ```
+        @Value
+        @Builder
+        public class ValidAddressRequest {
+            PostalCode postalCode;
+            Word city;
         }
         ```
     * emails
@@ -95,5 +104,36 @@ you want to know all errors encountered, instead of one at a time.
                         ? Validation.valid(number)
                         : Validation.invalid(number + " is not > 0");
             }
+        }
+        ```
+    * `PersonRequestValidation`
+        ```
+        public class PersonRequestValidation {
+            public static Validation<Seq<String>, ValidPersonRequest> validate(PersonRequest request) {
+        
+                return Validation
+                        .combine(
+                                Word.validate(request.getName()),
+                                Email.validate(request.getEmails()).mapError(error -> error.mkString(", ")),
+                                AddressRequestValidation.validate(request.getAddress()).mapError(error -> error.mkString(", ")),
+                                NumberValidation.positive(request.getAge()))
+                        .ap((name, emails, address, age) -> ValidPersonRequest.builder()
+                                .name(Word.of(name))
+                                .emails(emails.map(Email::of).transform(Emails::new))
+                                .address(address)
+                                .age(Age.of(age))
+                                .build());
+            }
+        }
+        ```
+        **note that in the end we construct** `ValidPersonRequest`:
+        ```
+        @Builder
+        @Value
+        public class ValidPersonRequest {
+            Word name;
+            ValidAddressRequest address;
+            Emails emails;
+            Age age;
         }
         ```
