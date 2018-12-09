@@ -2,7 +2,6 @@ package patterns;
 
 
 import com.google.common.base.Preconditions;
-import io.vavr.Tuple2;
 import io.vavr.collection.List;
 import io.vavr.control.Validation;
 import lombok.NonNull;
@@ -36,10 +35,9 @@ public class Email {
     }
 
     public static Validation<List<String>, List<String>> validate(List<String> emails) {
-        Tuple2<List<String>, List<String>> matches = emails.partition(PATTERN.asMatchPredicate());
-
-        return matches._2.isEmpty()
-                ? Validation.valid(matches._1)
-                : Validation.invalid(matches._2);
+        return emails.partition(PATTERN.asMatchPredicate())
+                .apply((successes, failures) -> failures.isEmpty()
+                        ? Validation.valid(successes)
+                        : Validation.invalid(failures.map(email -> email + " is not a valid email!")));
     }
 }
