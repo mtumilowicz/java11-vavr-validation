@@ -18,8 +18,8 @@ public class PersonRequestValidation {
         return Validation
                 .combine(
                         Word.validate(request.getName()),
-                        Email.validate(request.getEmails()).mapError(x -> x.mkString(", ")),
-                        AddressRequestValidation.validate(request.getAddress()).mapError(x -> x.mkString(", ")),
+                        Email.validate(request.getEmails()).mapError(error -> error.mkString(", ")),
+                        AddressRequestValidation.validate(request.getAddress()).mapError(error -> error.mkString(", ")),
                         NumberValidation.positive(request.getAge()))
                 .ap((name, emails, address, age) -> ValidPersonRequest.builder()
                         .name(Word.of(name))
