@@ -30,6 +30,9 @@ Preparing `Validator` is quite straight-forward:
     ```
     * **same number of arguments as combine**
 
+_Note that this project is strongly based on regexes (although
+requires only basic knowledge). For more info about regexes
+please refer my other github project: https://github.com/mtumilowicz/java11-regex_
 # project description
 1. suppose we want to validate `PersonRequest`:
     ```
