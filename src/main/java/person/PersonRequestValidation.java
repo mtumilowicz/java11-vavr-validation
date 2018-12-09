@@ -19,10 +19,10 @@ public class PersonRequestValidation {
                         AddressRequestValidation.validate(request.getAddress()).mapError(x -> x.mkString(", ")),
                         NumberValidation.validate(request.getAge()))
                 .ap((name, emails, address, age) -> ValidPersonRequest.builder()
-                        .name(name)
-                        .emails(emails)
+                        .name(Word.of(name))
+                        .emails(emails.map(Email::of))
                         .address(address)
-                        .age(age)
+                        .age(Age.of(age))
                         .build());
     }
 }

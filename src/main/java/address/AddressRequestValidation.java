@@ -2,6 +2,7 @@ package address;
 
 import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
+import person.Word;
 import validation.RegexPatternValidation;
 
 /**
@@ -15,8 +16,8 @@ public class AddressRequestValidation {
                         RegexPatternValidation.validate(request.getCity(), RegexPatternValidation.WORD_PATTERN, "NAME!"),
                         RegexPatternValidation.validate(request.getPostalCode(), RegexPatternValidation.POSTAL_CODE_PATTERN, "POSTAL CODE!"))
                 .ap((city, postalCode) -> ValidAddressRequest.builder()
-                        .city(city)
-                        .postalCode(postalCode)
+                        .city(Word.of(city))
+                        .postalCode(PostalCode.of(postalCode))
                         .build());
     }
 }

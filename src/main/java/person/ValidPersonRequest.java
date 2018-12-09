@@ -11,8 +11,8 @@ import lombok.Value;
 @Builder
 @Value
 public class ValidPersonRequest {
-    String name;
+    Word name;
     ValidAddressRequest address;
-    List<String> emails;
-    int age;
+    List<Email> emails;
+    Age age;
 }

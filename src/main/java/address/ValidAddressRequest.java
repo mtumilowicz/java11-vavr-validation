@@ -2,6 +2,7 @@ package address;
 
 import lombok.Builder;
 import lombok.Value;
+import person.Word;
 
 /**
  * Created by mtumilowicz on 2018-12-09.
@@ -9,6 +10,6 @@ import lombok.Value;
 @Value
 @Builder
 public class ValidAddressRequest {
-    String postalCode;
-    String city;
+    PostalCode postalCode;
+    Word city;
 }
