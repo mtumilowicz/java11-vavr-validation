@@ -53,7 +53,7 @@ Preparing `Validator` is quite straight-forward:
         * `city ~ [\w]`
     * `emails -> all email ~ [\w._%+-]+@[\w.-]+\.[\w]{2,}`
     * `age > 0`
-1. we create classes that abstract concept mentioned above
+1. we create classes that abstract concepts mentioned above
     * age
         ```
         @Value
