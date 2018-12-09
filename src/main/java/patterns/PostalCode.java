@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  */
 @Value
 public class PostalCode {
-    public static final Pattern PATTERN = Pattern.compile("\\d{2}-\\d{4}");
+    public static final Pattern PATTERN = Pattern.compile("\\d{2}-\\d{3}");
     
     String postalCode;
 
