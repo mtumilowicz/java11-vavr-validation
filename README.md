@@ -39,6 +39,110 @@ you want to know all errors encountered, instead of one at a time.
         * `city ~ [\w]`
     * `emails -> all email ~ [\w._%+-]+@[\w.-]+\.[\w]{2,}`
     * `age > 0`
+1. we create classes that abstract concept mentioned above
+    * age
+        ```
+        @Value
+        public class Age {
+            int age;
+        
+            private Age(int age) {
+                this.age = age;
+            }
+            
+            public static Age of(int age) {
+                Preconditions.checkArgument(age > 0);
+                
+                return new Age(age);
+            }
+        }
+        ```
+    * email / emails
+        ```
+        @Value
+        public class Email {
+            public static final Pattern PATTERN = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}");
+        
+            String email;
+        
+            private Email(String email) {
+                this.email = email;
+            }
+        
+            public static Email of(@NonNull String email) {
+                Preconditions.checkArgument(PATTERN.matcher(email).matches());
+        
+                return new Email(email);
+            }
+        
+            public static Validation<List<String>, List<String>> validate(List<String> emails) {
+                return emails.partition(PATTERN.asMatchPredicate())
+                        .apply((successes, failures) -> failures.isEmpty()
+                                ? Validation.valid(successes)
+                                : Validation.invalid(failures.map(email -> email + " is not a valid email!")));
+            }
+        }
+        ```
+        ```
+        @Value
+        public class Emails {
+            List<Email> emails;
+        
+            public Emails(@NonNull List<Email> emails) {
+                this.emails = emails;
+            }
+        }
+        ```
+    * postal code
+        ```
+        @Value
+        public class PostalCode {
+            public static final Pattern PATTERN = Pattern.compile("\\d{2}-\\d{3}");
+            
+            String postalCode;
+        
+            private PostalCode(String postalCode) {
+                this.postalCode = postalCode;
+            }
+            
+            public static PostalCode of(@NonNull String postalCode) {
+                Preconditions.checkArgument(PATTERN.matcher(postalCode).matches());
+                
+                return new PostalCode(postalCode);
+            }
+        
+            public static Validation<String, String> validate(String postalCode) {
+                return PATTERN.matcher(postalCode).matches()
+                        ? Validation.valid(postalCode)
+                        : Validation.invalid(postalCode + " is not a proper postal code!");
+            }
+        }
+        ```
+    * word
+        ```
+        @Value
+        public class Word {
+            public static final Pattern PATTERN = Pattern.compile("[\\w]+");
+            
+            String word;
+        
+            private Word(String word) {
+                this.word = word;
+            }
+        
+            public static Word of(@NonNull String word) {
+                Preconditions.checkArgument(PATTERN.matcher(word).matches());
+                
+                return new Word(word);
+            }
+        
+            public static Validation<String, String> validate(String word) {
+                return PATTERN.matcher(word).matches()
+                        ? Validation.valid(word)
+                        : Validation.invalid(word + " is not a proper word!");
+            }
+        }
+        ```
 1. we provide validators:
     * `AddressRequest`
         ```
