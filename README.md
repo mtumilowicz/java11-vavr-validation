@@ -1,7 +1,7 @@
 [![Build Status](https://travis-ci.com/mtumilowicz/java11-vavr-validation.svg?branch=master)](https://travis-ci.com/mtumilowicz/java11-vavr-validation)
 
 # java11-vavr-validation
-Overview of vavr Validation API.
+Overview of vavr `Validation API`.
 
 _Reference_: https://softwaremill.com/javaslang-data-validation/  
 _Reference_: https://www.vavr.io/vavr-docs/#_validation  
