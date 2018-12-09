@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
  */
 @Value
 public class Email {
-    public static final Pattern PATTERN = Pattern.compile("^[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}$");
+    public static final Pattern PATTERN = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}");
 
     String email;
 
