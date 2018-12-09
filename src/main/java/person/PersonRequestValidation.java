@@ -8,7 +8,6 @@ import patterns.Email;
 import patterns.Emails;
 import patterns.Word;
 import validation.NumberValidation;
-import validation.RegexPatternValidation;
 
 /**
  * Created by mtumilowicz on 2018-12-09.
@@ -18,10 +17,10 @@ public class PersonRequestValidation {
 
         return Validation
                 .combine(
-                        RegexPatternValidation.validate(request.getName(), RegexPatternValidation.WORD_PATTERN, "NAME!"),
-                        RegexPatternValidation.validate(request.getEmails(), RegexPatternValidation.EMAIL_PATTERN, "EMAIL!").mapError(x -> x.mkString(", ")),
+                        Word.validate(request.getName()),
+                        Email.validate(request.getEmails()).mapError(x -> x.mkString(", ")),
                         AddressRequestValidation.validate(request.getAddress()).mapError(x -> x.mkString(", ")),
-                        NumberValidation.validate(request.getAge()))
+                        NumberValidation.positive(request.getAge()))
                 .ap((name, emails, address, age) -> ValidPersonRequest.builder()
                         .name(Word.of(name))
                         .emails(emails.map(Email::of).transform(Emails::new))

@@ -4,7 +4,6 @@ import io.vavr.collection.Seq;
 import io.vavr.control.Validation;
 import patterns.PostalCode;
 import patterns.Word;
-import validation.RegexPatternValidation;
 
 /**
  * Created by mtumilowicz on 2018-12-09.
@@ -14,8 +13,8 @@ public class AddressRequestValidation {
 
         return Validation
                 .combine(
-                        RegexPatternValidation.validate(request.getCity(), RegexPatternValidation.WORD_PATTERN, "NAME!"),
-                        RegexPatternValidation.validate(request.getPostalCode(), RegexPatternValidation.POSTAL_CODE_PATTERN, "POSTAL CODE!"))
+                        Word.validate(request.getCity()),
+                        PostalCode.validate(request.getPostalCode()))
                 .ap((city, postalCode) -> ValidAddressRequest.builder()
                         .city(Word.of(city))
                         .postalCode(PostalCode.of(postalCode))

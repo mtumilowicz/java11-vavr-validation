@@ -2,6 +2,7 @@ package patterns;
 
 
 import com.google.common.base.Preconditions;
+import io.vavr.control.Validation;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  */
 @Value
 public class Word {
-    public static final Pattern WORD_PATTERN = Pattern.compile("[\\w]+");
+    public static final Pattern PATTERN = Pattern.compile("[\\w]+");
     
     String word;
 
@@ -21,8 +22,14 @@ public class Word {
     }
 
     public static Word of(@NonNull String word) {
-        Preconditions.checkArgument(WORD_PATTERN.matcher(word).matches());
+        Preconditions.checkArgument(PATTERN.matcher(word).matches());
         
         return new Word(word);
+    }
+
+    public static Validation<String, String> validate(String word) {
+        return PATTERN.matcher(word).matches()
+                ? Validation.valid(word)
+                : Validation.invalid(word + "is not a proper word!");
     }
 }

@@ -1,6 +1,7 @@
 package patterns;
 
 import com.google.common.base.Preconditions;
+import io.vavr.control.Validation;
 import lombok.NonNull;
 import lombok.Value;
 
@@ -11,7 +12,7 @@ import java.util.regex.Pattern;
  */
 @Value
 public class PostalCode {
-    public static final Pattern POSTAL_CODE_PATTERN = Pattern.compile("\\d{2}-\\d{4}");
+    public static final Pattern PATTERN = Pattern.compile("\\d{2}-\\d{4}");
     
     String postalCode;
 
@@ -20,8 +21,14 @@ public class PostalCode {
     }
     
     public static PostalCode of(@NonNull String postalCode) {
-        Preconditions.checkArgument(POSTAL_CODE_PATTERN.matcher(postalCode).matches());
+        Preconditions.checkArgument(PATTERN.matcher(postalCode).matches());
         
         return new PostalCode(postalCode);
+    }
+
+    public static Validation<String, String> validate(String postalCode) {
+        return PATTERN.matcher(postalCode).matches()
+                ? Validation.valid(postalCode)
+                : Validation.invalid(postalCode + " is not a proper postal code!");
     }
 }
