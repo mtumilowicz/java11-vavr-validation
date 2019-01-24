@@ -6,6 +6,7 @@ import io.vavr.control.Validation;
 import lombok.NonNull;
 import lombok.Value;
 
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -13,7 +14,7 @@ import java.util.regex.Pattern;
  */
 @Value
 public class Word {
-    public static final Pattern PATTERN = Pattern.compile("[\\w]+");
+    public static final Predicate<String> VALIDATOR = Pattern.compile("[\\w]+").asMatchPredicate();
     
     String word;
 
@@ -22,13 +23,13 @@ public class Word {
     }
 
     public static Word of(@NonNull String word) {
-        Preconditions.checkArgument(PATTERN.matcher(word).matches());
+        Preconditions.checkArgument(VALIDATOR.test(word));
         
         return new Word(word);
     }
 
     public static Validation<String, String> validate(String word) {
-        return PATTERN.matcher(word).matches()
+        return VALIDATOR.test(word)
                 ? Validation.valid(word)
                 : Validation.invalid(word + " is not a proper word!");
     }

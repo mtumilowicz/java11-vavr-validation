@@ -5,6 +5,7 @@ import io.vavr.control.Validation;
 import lombok.NonNull;
 import lombok.Value;
 
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -12,7 +13,7 @@ import java.util.regex.Pattern;
  */
 @Value
 public class PostalCode {
-    public static final Pattern PATTERN = Pattern.compile("\\d{2}-\\d{3}");
+    public static final Predicate<String> VALIDATOR = Pattern.compile("\\d{2}-\\d{3}").asMatchPredicate();
     
     String postalCode;
 
@@ -21,13 +22,13 @@ public class PostalCode {
     }
     
     public static PostalCode of(@NonNull String postalCode) {
-        Preconditions.checkArgument(PATTERN.matcher(postalCode).matches());
+        Preconditions.checkArgument(VALIDATOR.test(postalCode));
         
         return new PostalCode(postalCode);
     }
 
     public static Validation<String, String> validate(String postalCode) {
-        return PATTERN.matcher(postalCode).matches()
+        return VALIDATOR.test(postalCode)
                 ? Validation.valid(postalCode)
                 : Validation.invalid(postalCode + " is not a proper postal code!");
     }

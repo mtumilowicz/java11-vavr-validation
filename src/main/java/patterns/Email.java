@@ -7,6 +7,7 @@ import io.vavr.control.Validation;
 import lombok.NonNull;
 import lombok.Value;
 
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 /**
@@ -14,7 +15,8 @@ import java.util.regex.Pattern;
  */
 @Value
 public class Email {
-    public static final Pattern PATTERN = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}");
+    public static final Predicate<String> VALIDATOR = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}")
+            .asMatchPredicate();
 
     String email;
 
@@ -23,13 +25,13 @@ public class Email {
     }
 
     public static Email of(@NonNull String email) {
-        Preconditions.checkArgument(PATTERN.matcher(email).matches());
+        Preconditions.checkArgument(VALIDATOR.test(email));
 
         return new Email(email);
     }
 
     public static Validation<List<String>, List<String>> validate(List<String> emails) {
-        return emails.partition(PATTERN.asMatchPredicate())
+        return emails.partition(VALIDATOR)
                 .apply((successes, failures) -> failures.isEmpty()
                         ? Validation.valid(successes)
                         : Validation.invalid(failures.map(email -> email + " is not a valid email!")));
