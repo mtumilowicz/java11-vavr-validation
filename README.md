@@ -78,7 +78,8 @@ please refer my other github project: https://github.com/mtumilowicz/java11-rege
         ```
         @Value
         public class Email {
-            public static final Pattern PATTERN = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}");
+            public static final Predicate<String> VALIDATOR = Pattern.compile("[\\w._%+-]+@[\\w.-]+\\.[\\w]{2,}")
+                    .asMatchPredicate();
         
             String email;
         
@@ -87,13 +88,13 @@ please refer my other github project: https://github.com/mtumilowicz/java11-rege
             }
         
             public static Email of(@NonNull String email) {
-                Preconditions.checkArgument(PATTERN.matcher(email).matches());
+                Preconditions.checkArgument(VALIDATOR.test(email));
         
                 return new Email(email);
             }
         
             public static Validation<List<String>, List<String>> validate(List<String> emails) {
-                return emails.partition(PATTERN.asMatchPredicate())
+                return emails.partition(VALIDATOR)
                         .apply((successes, failures) -> failures.isEmpty()
                                 ? Validation.valid(successes)
                                 : Validation.invalid(failures.map(email -> email + " is not a valid email!")));
@@ -114,7 +115,7 @@ please refer my other github project: https://github.com/mtumilowicz/java11-rege
         ```
         @Value
         public class PostalCode {
-            public static final Pattern PATTERN = Pattern.compile("\\d{2}-\\d{3}");
+            public static final Predicate<String> VALIDATOR = Pattern.compile("\\d{2}-\\d{3}").asMatchPredicate();
             
             String postalCode;
         
@@ -123,13 +124,13 @@ please refer my other github project: https://github.com/mtumilowicz/java11-rege
             }
             
             public static PostalCode of(@NonNull String postalCode) {
-                Preconditions.checkArgument(PATTERN.matcher(postalCode).matches());
+                Preconditions.checkArgument(VALIDATOR.test(postalCode));
                 
                 return new PostalCode(postalCode);
             }
         
             public static Validation<String, String> validate(String postalCode) {
-                return PATTERN.matcher(postalCode).matches()
+                return VALIDATOR.test(postalCode)
                         ? Validation.valid(postalCode)
                         : Validation.invalid(postalCode + " is not a proper postal code!");
             }
@@ -139,7 +140,7 @@ please refer my other github project: https://github.com/mtumilowicz/java11-rege
         ```
         @Value
         public class Word {
-            public static final Pattern PATTERN = Pattern.compile("[\\w]+");
+            public static final Predicate<String> VALIDATOR = Pattern.compile("[\\w]+").asMatchPredicate();
             
             String word;
         
@@ -148,13 +149,13 @@ please refer my other github project: https://github.com/mtumilowicz/java11-rege
             }
         
             public static Word of(@NonNull String word) {
-                Preconditions.checkArgument(PATTERN.matcher(word).matches());
+                Preconditions.checkArgument(VALIDATOR.test(word));
                 
                 return new Word(word);
             }
         
             public static Validation<String, String> validate(String word) {
-                return PATTERN.matcher(word).matches()
+                return VALIDATOR.test(word)
                         ? Validation.valid(word)
                         : Validation.invalid(word + " is not a proper word!");
             }
